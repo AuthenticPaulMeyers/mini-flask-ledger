@@ -38,10 +38,26 @@ def add_transaction():
     return render_template("form.html")
 
 
-
-
 # Update operation
+@app.route("/edit/<int:transaction_id", methods = ["GET", "POST"])
+def update_transaction(transaction_id):
+    if request.method == "POST"
+        # Access form data
+        date = request.form['date']
+        amount = float(request.form['amount'])
 
+        # Find the transaction with the matching ID"
+        for transaction in transactions:
+            if transaction["id"] == transaction_id:
+                transaction['date'] = date
+                transaction['amount'] = amount
+                break                               # Exit the loop once the transaction is found and updated
+        return redirect(url_for("get_transactions"))
+    # If the request method is GET, find the transaction with the matching ID and render the edit form
+    for transaction in transactions:
+        if transaction["id"] == transaction_id:
+            return render_template("edit.html", transaction=transaction)
+    return {"message" : "Transaction not found"}, 404
 # Delete operation
 
 # Run the Flask app
