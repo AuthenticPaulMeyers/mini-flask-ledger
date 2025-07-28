@@ -8,7 +8,7 @@ transactions = [
     {'id' : 2, 'date' : '2025-07-26', 'amount' : 200},
     {'id' : 3, 'date' : '2025-07-27', 'amount' : 300},
     {'id' : 4, 'date' : '2025-07-28', 'amount' : 400},
-    {'id' : 5, 'date' : '2025-07-29', 'amount' : 500},
+    {'id' : 5, 'date' : '2025-07-29', 'amount' : 500}
 ]
 
 
@@ -25,12 +25,12 @@ def add_transaction():
     if request.method == "POST":
         # Create new transaction values using the field values
         transaction = {
-                  'id': len(transactions)+1,
+                  'id': len(transactions) + 1,
                   'date': request.form['date'],
                   'amount': float(request.form['amount'])
                  }
         # Append the created transaction to the list of existing ones
-        transactions = append(transaction)
+        transactions.append(transaction)
 
         # Redirect to the transaction list page after adding the new transaction
         return redirect(url_for("get_transactions"))
@@ -49,8 +49,8 @@ def edit_transaction(transaction_id):
         # Find the transaction with the matching ID"
         for transaction in transactions:
             if transaction["id"] == transaction_id:
-                transaction['date'] = date,
-                transaction['amount'] = amount,
+                transaction['date'] = date
+                transaction['amount'] = amount
                 break                               # Exit the loop once the transaction is found and updated
         return redirect(url_for("get_transactions"))
     # If the request method is GET, find the transaction with the matching ID and render the edit form
@@ -60,15 +60,14 @@ def edit_transaction(transaction_id):
     return {"message" : "Transaction not found"}, 404
 
 # Delete operation
-@app.route("/delete/<int:transaction_id>", methods=["POST"])
+@app.route("/delete/<int:transaction_id>")
 def delete_transaction(transaction_id):
-    if request.method == "POST":
         for transaction in transactions:
             if transaction["id"] == transaction_id:
                 transactions.remove(transaction)
                 break # Exit the loop once the transaction with the ID is found
-        return redirect(url_for("get_transaction"))
-    return {"message" : "Transaction not found"}, 404
+        return redirect(url_for("get_transactions"))
+        return {"message" : "Transaction not found"}, 404
 
 # Run the Flask app
 if __name__ == "__main__":
