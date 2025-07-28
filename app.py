@@ -1,14 +1,14 @@
 # Import libraries
-from flask import Flask, request, response, jsonify, url_for, render_template, redirect
+from flask import Flask, request, jsonify, url_for, render_template, redirect
 # Instantiate Flask functionality
 app = Flask(__name__)
 # Sample data
-transaction = [
-    {'id' : 1, 'date': '2025-07-25', 'amount' : 100}
-    {'id' : 2, 'date' : '2025-07-26', 'amount' : 200}
-    {'id' : 3, 'date' : '2025-07-27', 'amount' : 300}
-    {'id' : 4, 'date' : '2025-07-28', 'amount' : 400}
-    {'id' : 5, 'date' : '2025-07-29', 'amount' : 500}
+transactions = [
+    {'id' : 1, 'date': '2025-07-25', 'amount' : 100},
+    {'id' : 2, 'date' : '2025-07-26', 'amount' : 200},
+    {'id' : 3, 'date' : '2025-07-27', 'amount' : 300},
+    {'id' : 4, 'date' : '2025-07-28', 'amount' : 400},
+    {'id' : 5, 'date' : '2025-07-29', 'amount' : 500},
 ]
 
 
@@ -22,11 +22,11 @@ def get_transactions():
 # Create operation
 @app.route("/add", methods=["GET", "POST"])
 def add_transaction():
-    if request.method == "POST"
+    if request.method == "POST":
         # Create new transaction values using the field values
         transaction = {
-                  'id': len(transactions)+1
-                  'date': request.form['date']
+                  'id': len(transactions)+1,
+                  'date': request.form['date'],
                   'amount': float(request.form['amount'])
                  }
         # Append the created transaction to the list of existing ones
@@ -39,9 +39,9 @@ def add_transaction():
 
 
 # Update operation
-@app.route("/edit/<int:transaction_id", methods = ["GET", "POST"])
-def update_transaction(transaction_id):
-    if request.method == "POST"
+@app.route("/edit/<int:transaction_id>", methods = ["GET", "POST"])
+def edit_transaction(transaction_id):
+    if request.method == "POST":
         # Access form data
         date = request.form['date']
         amount = float(request.form['amount'])
@@ -49,8 +49,8 @@ def update_transaction(transaction_id):
         # Find the transaction with the matching ID"
         for transaction in transactions:
             if transaction["id"] == transaction_id:
-                transaction['date'] = date
-                transaction['amount'] = amount
+                transaction['date'] = date,
+                transaction['amount'] = amount,
                 break                               # Exit the loop once the transaction is found and updated
         return redirect(url_for("get_transactions"))
     # If the request method is GET, find the transaction with the matching ID and render the edit form
@@ -60,7 +60,7 @@ def update_transaction(transaction_id):
     return {"message" : "Transaction not found"}, 404
 
 # Delete operation
-@app.route("/delete/<int:transaction_id", methods=["POST"])
+@app.route("/delete/<int:transaction_id>", methods=["POST"])
 def delete_transaction(transaction_id):
     if request.method == "POST":
         for transaction in transactions:
@@ -69,4 +69,7 @@ def delete_transaction(transaction_id):
                 break # Exit the loop once the transaction with the ID is found
         return redirect(url_for("get_transaction"))
     return {"message" : "Transaction not found"}, 404
+
 # Run the Flask app
+if __name__ == "__main__":
+    app.run(debug=True)
