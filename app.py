@@ -58,6 +58,15 @@ def update_transaction(transaction_id):
         if transaction["id"] == transaction_id:
             return render_template("edit.html", transaction=transaction)
     return {"message" : "Transaction not found"}, 404
-# Delete operation
 
+# Delete operation
+@app.route("/delete/<int:transaction_id", methods=["POST"])
+def delete_transaction(transaction_id):
+    if request.method == "POST":
+        for transaction in transactions:
+            if transaction["id"] == transaction_id:
+                transactions.remove(transaction)
+                break # Exit the loop once the transaction with the ID is found
+        return redirect(url_for("get_transaction"))
+    return {"message" : "Transaction not found"}, 404
 # Run the Flask app
