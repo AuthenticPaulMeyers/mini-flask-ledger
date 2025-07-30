@@ -69,6 +69,15 @@ def delete_transaction(transaction_id):
         return redirect(url_for("get_transactions"))
         return {"message" : "Transaction not found"}, 404
 
+
+# Search transactions
+@app.route("/search", methods = ["GET", "POST"])
+def search_transactions():
+    if request.method == "POST":
+        for transaction in transactions:
+            amount = request.form["amount"]
+            transaction["amount"] = amount
+            return float(max(amount))
 # Run the Flask app
 if __name__ == "__main__":
     app.run(debug=True)
