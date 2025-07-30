@@ -74,10 +74,17 @@ def delete_transaction(transaction_id):
 @app.route("/search", methods = ["GET", "POST"])
 def search_transactions():
     if request.method == "POST":
-        for transaction in transactions:
-            amount = request.form["amount"]
-            transaction["amount"] = amount
-            return float(max(amount))
+        transaction["amount"] = amount
+        min_amount = float(request.form["minimum_amount"])
+        max_amount = float(request.form["maximum_amount"])
+        filtered_transactions = [
+        transaction for transaction in transactions
+        if min_amount <= amount >= max_amount
+        ]
+        # for transaction in transactions:
+        # return float(max(amount))
+
+    
 # Run the Flask app
 if __name__ == "__main__":
     app.run(debug=True)
