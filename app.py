@@ -74,16 +74,17 @@ def delete_transaction(transaction_id):
 @app.route("/search", methods = ["GET", "POST"])
 def search_transactions():
     if request.method == "POST":
-        transaction["amount"] = amount
-        min_amount = float(request.form["minimum_amount"])
-        max_amount = float(request.form["maximum_amount"])
-        filtered_transactions = [
-        transaction for transaction in transactions
-        if min_amount <= amount >= max_amount
+        try: 
+            min_amount = float(request.form["min_amount"])
+            max_amount = float(request.form["max_amount"])
+            filtered_transactions = [
+            transaction for transaction in transactions
+            if min_amount <= transaction["amount"] <= max_amount
         ]
-        # for transaction in transactions:
-        # return float(max(amount))
-
+            return render_template("transactions.html", transactions = filtered_transactions)
+        except(ValueError):
+            return jsonify({"message" : "Input valid values. Please enter numbers only"}, 400)
+    return render_template("search.html")
     
 # Run the Flask app
 if __name__ == "__main__":
