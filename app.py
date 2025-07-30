@@ -81,11 +81,22 @@ def search_transactions():
             transaction for transaction in transactions
             if min_amount <= transaction["amount"] <= max_amount
         ]
+            # Walrus operator implementation of list comprehension with variable assignment inside - ADVANCED
+            # filtered_transactions = [
+            #     transaction for transaction in transactions
+            #     if(amount := transaction["amount"]) and min_amount <= amount <= max_amount
+            # ]
             return render_template("transactions.html", transactions = filtered_transactions)
         except(ValueError):
             return jsonify({"message" : "Input valid values. Please enter numbers only"}, 400)
     return render_template("search.html")
     
+# Total Balance
+@app.route("/balance")
+def total_balance():
+    
+
+
 # Run the Flask app
 if __name__ == "__main__":
     app.run(debug=True)
