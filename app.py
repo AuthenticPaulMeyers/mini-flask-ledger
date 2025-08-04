@@ -94,10 +94,9 @@ def search_transactions():
 # Total Balance
 @app.route("/balance")
 def total_balance():
-    for transaction in transactions:
-        total_balance = float(sum(transaction.amount))
-    return redirect_url(url_for("get_transactions"))
-    return  render_template("transactions.html", transactions=transactions)
+    transaction_amount_list = [transaction["amount"] for transaction in transactions]
+    total = sum(transaction_amount_list)
+    return render_template("transactions.html", transactions=transactions, total=total)
 
 # Run the Flask app
 if __name__ == "__main__":
