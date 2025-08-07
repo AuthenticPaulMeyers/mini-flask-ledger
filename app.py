@@ -97,7 +97,6 @@ def total_balance():
     transaction_amount_list = [transaction["amount"] for transaction in transactions]
     total = sum(transaction_amount_list)
     return render_template("transactions.html", transactions=transactions, total=total)
-
 # Run the Flask app
 if __name__ == "__main__":
     app.run(debug=True)
